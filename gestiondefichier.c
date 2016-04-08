@@ -2,7 +2,8 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdio.h>
-#define BUF_SIZE 3
+#include <fcntl.h>
+#define BUF_SIZE 1
 
 int		rdfile(int fd)
 {
@@ -14,18 +15,30 @@ int		rdfile(int fd)
 	buf = malloc(BUF_SIZE);
 	while (1)
 	{
-		if (i != BUF_SIZE && i != '\n')
-		{
-			nbchar = read(fd, buf, BUF_SIZE);
-			i++;
-		}
-		if (buf[i] == '\n')
-			return (0);
+		nbchar = read(fd, buf, BUF_SIZE);
+		if (buf[i] == '\n' || buf[i] == EOF || nbchar == 0)
+			return (nbchar == 0 ? 0 : 1);
+		else
+			printf("%s", &buf[i]);
 	}
-	return (0);
 }
 
 int main(void)
 {
-	printf("%s", blabla.txt);
+	int fd;
+	int retour;
+
+	fd = open("blabla.txt", O_RDONLY);
+	retour = rdfile(fd);
+	printf("%d\n", retour);
+	retour = rdfile(fd);
+	printf("%d\n", retour);
+	retour = rdfile(fd);
+	printf("%d\n", retour);
+	retour = rdfile(fd);
+	printf("%d\n", retour);
+	retour = rdfile(fd);
+	printf("%d\n", retour);
+	retour = rdfile(fd);
+	printf("%d\n", retour);
 }
